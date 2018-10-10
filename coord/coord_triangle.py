@@ -1,8 +1,8 @@
-import math
+import numpy as np
 
 
 def length(v0, v1):
-    return math.sqrt(math.pow(v0[1] - v1[1], 2) + math.pow(v0[0] - v1[0], 2))
+    return np.sqrt(np.power(v0[1] - v1[1], 2) + np.power(v0[0] - v1[0], 2))
 
 
 def slope(v0, v1):
@@ -19,10 +19,10 @@ class CoordinateTriangle:
         self.v0, self.v1, self.v2 = v0, v1, v2
 
     def area(self):
-        return abs((self.v0[0] * (self.v1[1] - self.v2[1])
-                    + self.v1[0] * (self.v2[1] - self.v0[1])
-                    + self.v2[0] * (self.v0[1] - self.v1[1])
-                    ) / 2.)
+        return np.abs((self.v0[0] * (self.v1[1] - self.v2[1])
+                       + self.v1[0] * (self.v2[1] - self.v0[1])
+                       + self.v2[0] * (self.v0[1] - self.v1[1])
+                       ) / 2.)
 
     def perimeter(self):
         return length(self.v0, self.v1) + length(self.v1, self.v2) + length(self.v2, self.v0)
@@ -34,7 +34,7 @@ class CoordinateTriangle:
         v0, v1, v2 = self.v0, self.v1, self.v2
 
         while v0[0] == v1[0] or v0[0] == v2[0]:
-            v1, v2, v0 = v0, v1, v2
+            v0, v1, v2 = v2, v0, v1
 
         midpoint_ab = midpoint(v0, v1)
         midpoint_ac = midpoint(v0, v2)
@@ -54,7 +54,7 @@ class CoordinateTriangle:
         v0, v1, v2 = self.v0, self.v1, self.v2
 
         while v0[0] == v1[0] or v1[0] == v2[0]:
-            v1, v2, v1 = v0, v1, v2
+            v0, v1, v2 = v1, v2, v0
 
         slope_p_ab = -1. / slope(v0, v1)
         slope_p_bc = -1. / slope(v1, v2)
@@ -68,8 +68,10 @@ class CoordinateTriangle:
         return x, y
 
     def incenter(self):
-        x = (length(self.v1, self.v2) * self.v0[0] + length(self.v0, self.v2) * self.v1[0] + length(self.v0, self.v1) * self.v2[0]) / self.perimeter()
-        y = (length(self.v1, self.v2) * self.v0[1] + length(self.v0, self.v2) * self.v1[1] + length(self.v0, self.v1) * self.v2[1]) / self.perimeter()
+        x = (length(self.v1, self.v2) * self.v0[0] + length(self.v0, self.v2) * self.v1[0] + length(self.v0, self.v1) *
+             self.v2[0]) / self.perimeter()
+        y = (length(self.v1, self.v2) * self.v0[1] + length(self.v0, self.v2) * self.v1[1] + length(self.v0, self.v1) *
+             self.v2[1]) / self.perimeter()
 
         return x, y
 
